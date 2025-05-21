@@ -95,9 +95,9 @@ export default function Home() {
             privati e aziende.
           </p>
           <p className="text-lg mb-4">
-            Il nostro approccio combina competenza giuridica con un'attenzione
-            particolare alle esigenze specifiche di ogni cliente, garantendo
-            soluzioni personalizzate ed efficaci.
+            Il nostro approccio combina competenza giuridica con
+            un&apos;attenzione particolare alle esigenze specifiche di ogni
+            cliente, garantendo soluzioni personalizzate ed efficaci.
           </p>
           <Button variant="outline" asChild className="mt-4">
             <Link href="/chi-siamo">Scopri di più</Link>
