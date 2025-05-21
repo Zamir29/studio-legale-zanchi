@@ -9,21 +9,19 @@ import { AnimatePresence, motion } from "framer-motion";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(false);
+
   const [shouldRenderOverlay, setShouldRenderOverlay] = useState(false);
 
   const openMenu = () => {
     setIsMenuOpen(true);
     setShouldRenderOverlay(true);
-    setShowOverlay(true);
   };
 
   const closeMenu = () => {
-    setShowOverlay(false);
     setIsMenuOpen(false);
     setTimeout(() => {
       setShouldRenderOverlay(false);
-    }, 300); // Wait for both fade and collapse (300ms each)
+    }, 100); // Wait
   };
 
   return (
@@ -31,7 +29,7 @@ export default function Header() {
       <AnimatePresence>
         {shouldRenderOverlay && (
           <motion.div
-            className="fixed inset-0 z-40 bg-black/50"
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
