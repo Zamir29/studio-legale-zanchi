@@ -125,7 +125,7 @@ export default function Home() {
           ].map((testimonial, index) => (
             <Card key={index} className="bg-primary/5">
               <CardContent className="p-6">
-                <p className="italic mb-4">"{testimonial.quote}"</p>
+                <p className="italic mb-4">&ldquo;{testimonial.quote}&ldquo;</p>
                 <p className="font-medium text-right">— {testimonial.author}</p>
               </CardContent>
             </Card>
