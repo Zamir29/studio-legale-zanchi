@@ -4,30 +4,48 @@
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [shouldRenderOverlay, setShouldRenderOverlay] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const openMenu = () => {
+    setIsMenuOpen(true);
+    setShouldRenderOverlay(true);
+    setShowOverlay(true);
   };
 
   const closeMenu = () => {
+    setShowOverlay(false);
     setIsMenuOpen(false);
+    setTimeout(() => {
+      setShouldRenderOverlay(false);
+    }, 300); // Wait for both fade and collapse (300ms each)
   };
-
-  useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isMenuOpen]);
 
   return (
     <>
-      <header className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur border-b border-gray-200">
+      <AnimatePresence>
+        {shouldRenderOverlay && (
+          <motion.div
+            className="fixed inset-0 z-40 bg-black/50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={closeMenu}
+          />
+        )}
+      </AnimatePresence>
+
+      <motion.header
+        layout
+        className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur border-b border-gray-200"
+        initial={false}
+      >
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           {/* Logo */}
           <Link href="/" className="flex flex-col leading-none">
@@ -40,7 +58,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex gap-8 items-center">
+          <nav className="hidden lg:flex gap-8 items-center">
             <Link
               href="/servizi"
               className="text-sm hover:text-primary transition-colors"
@@ -60,8 +78,8 @@ export default function Header() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden z-50 relative"
-            onClick={toggleMenu}
+            className="lg:hidden z-50 relative"
+            onClick={isMenuOpen ? closeMenu : openMenu}
             aria-label="Toggle Menu"
           >
             {isMenuOpen ? (
@@ -71,44 +89,43 @@ export default function Header() {
             )}
           </button>
         </div>
-      </header>
 
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            className="fixed inset-0 z-40 bg-black/50 pt-16"
-            onClick={closeMenu}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
+        <AnimatePresence>
+          {isMenuOpen && (
             <motion.div
-              className="relative bg-white w-full h-full flex flex-col items-center justify-center gap-6 text-lg font-medium"
-              onClick={(e) => e.stopPropagation()}
-              initial={{ y: "-100%", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: "-100%", opacity: 0 }}
+              layout
+              key="mobile-menu"
+              initial={{ height: 0 }}
+              animate={{ height: "auto" }}
+              exit={{ height: 0 }}
               transition={{ duration: 0.3 }}
+              className="overflow-hidden"
             >
-              <button
-                className="absolute top-4 right-4 z-50"
-                onClick={closeMenu}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="lg:hidden px-4 pb-6 flex flex-col items-center gap-4"
               >
-                <X className="w-6 h-6" />
-              </button>
-              <Link href="/servizi" onClick={closeMenu}>
-                Servizi
-              </Link>
-              <Link href="/chi-siamo" onClick={closeMenu}>
-                Chi siamo
-              </Link>
-              <Link href="/contatti" onClick={closeMenu}>
-                <Button>Fissa una consulenza</Button>
-              </Link>
+                <Link href="/servizi" onClick={closeMenu} className="text-base">
+                  Servizi
+                </Link>
+                <Link
+                  href="/chi-siamo"
+                  onClick={closeMenu}
+                  className="text-base"
+                >
+                  Chi siamo
+                </Link>
+                <Link href="/contatti" onClick={closeMenu}>
+                  <Button>Fissa una consulenza</Button>
+                </Link>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
+      </motion.header>
     </>
   );
 }
