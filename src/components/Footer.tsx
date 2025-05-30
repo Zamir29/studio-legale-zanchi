@@ -4,8 +4,8 @@ import { Scale, Mail, Phone, MapPin } from "lucide-react";
 export default function Footer() {
   return (
     <footer className="bg-muted/30 border-t">
-      <div className="container py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="mx-auto max-w-7xl px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Studio Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -86,6 +86,24 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
+          </div>
+
+          {/* Newsletter Signup (placeholder) */}
+          <div>
+            <h3 className="font-medium mb-4">Newsletter</h3>
+            <form className="space-y-2 text-sm">
+              <input
+                type="email"
+                placeholder="La tua email"
+                className="w-full px-3 py-2 border rounded-md bg-background text-foreground placeholder-muted-foreground"
+              />
+              <button
+                type="submit"
+                className="w-full px-3 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition"
+              >
+                Iscriviti
+              </button>
+            </form>
           </div>
         </div>
 
