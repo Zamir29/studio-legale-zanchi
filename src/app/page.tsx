@@ -104,34 +104,6 @@ export default function Home() {
           </Button>
         </div>
       </section>
-
-      {/* Testimonials Section */}
-      <section>
-        <h2 className="text-3xl font-bold mb-8 text-center">
-          Cosa dicono i nostri clienti
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            {
-              quote:
-                "Lo Studio Legale Zanchi ha gestito la mia pratica con grande professionalità e competenza, ottenendo un risultato eccellente in tempi rapidi.",
-              author: "Marco B., Milano",
-            },
-            {
-              quote:
-                "Apprezzo molto la chiarezza e la trasparenza con cui l'Avvocato Zanchi mi ha spiegato ogni aspetto della mia situazione legale.",
-              author: "Laura T., Monza",
-            },
-          ].map((testimonial, index) => (
-            <Card key={index} className="bg-primary/5">
-              <CardContent className="p-6">
-                <p className="italic mb-4">&ldquo;{testimonial.quote}&ldquo;</p>
-                <p className="font-medium text-right">— {testimonial.author}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }
