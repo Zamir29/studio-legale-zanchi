@@ -22,7 +22,8 @@ export default function RootLayout({
       <body>
         <div className="min-h-screen flex flex-col">
           <Header />
-          <main className="flex-grow">{children}</main>
+          <main className="flex-grow pt-20">{children}</main>{" "}
+          {/* The top padding should be defined by the height of the menu bar to avoid overlap */}
           <Footer />
         </div>
       </body>

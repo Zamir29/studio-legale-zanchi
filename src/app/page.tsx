@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import { servizi } from "@/lib/services";
 
 export default function Home() {
   return (
@@ -43,38 +44,7 @@ export default function Home() {
           Le nostre aree di competenza
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            {
-              title: "Diritto Civile",
-              description:
-                "Assistenza in tutte le controversie tra privati, tutela dei diritti e risoluzione di conflitti.",
-            },
-            {
-              title: "Diritto Contrattuale",
-              description:
-                "Redazione, analisi e negoziazione di contratti commerciali e accordi tra le parti.",
-            },
-            {
-              title: "Diritto di Famiglia",
-              description:
-                "Consulenza su separazioni, divorzi, affidamento minori e tutela dei diritti familiari.",
-            },
-            {
-              title: "Responsabilità Civile",
-              description:
-                "Assistenza in casi di danni derivanti da comportamenti illeciti o inadempimenti.",
-            },
-            {
-              title: "Diritto Immobiliare",
-              description:
-                "Consulenza su compravendite, locazioni, condominio e controversie immobiliari.",
-            },
-            {
-              title: "Recupero Crediti",
-              description:
-                "Strategie efficaci per il recupero di crediti insoluti e tutela degli interessi economici.",
-            },
-          ].map((service, index) => (
+          {servizi.map((service, index) => (
             <Card key={index} className="hover:shadow-lg transition-shadow">
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold mb-2">{service.title}</h3>
