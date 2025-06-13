@@ -2,18 +2,30 @@
 "use client";
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import clsx from "clsx";
+import { colorThemes } from "@/lib/theme";
 
-const themes = ["graphite", "blue", "red"] as const;
-type Theme = (typeof themes)[number];
+const themes = [
+  { key: "option1", label: "Graphite" },
+  { key: "option2", label: "Blue" },
+  { key: "option3", label: "Red" },
+] as const;
+
+type ThemeKey = (typeof themes)[number]["key"];
 
 export default function ToggleSelector({
   value,
   onChange,
 }: {
-  value: string;
-  onChange: (val: string) => void;
+  value: ThemeKey;
+  onChange: (val: ThemeKey) => void;
 }) {
-  const selectedIndex = useMemo(() => themes.indexOf(value as Theme), [value]);
+  const selectedIndex = useMemo(
+    () => themes.findIndex((theme) => theme.key === value),
+    [value]
+  );
+
+  // Get the current theme colors
+  const currentTheme = useMemo(() => colorThemes[value], [value]);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isLeaving, setIsLeaving] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -95,7 +107,7 @@ export default function ToggleSelector({
         return;
     }
 
-    onChange(themes[newIndex]);
+    onChange(themes[newIndex].key);
   };
 
   // Focus the selected button when selection changes via keyboard
@@ -111,8 +123,11 @@ export default function ToggleSelector({
   return (
     <div
       ref={containerRef}
-      className="relative h-10 bg-gray-100 rounded-full p-1 shadow-inner overflow-hidden"
-      style={{ width: `${containerWidth}px` }}
+      className="relative h-10 rounded-full p-1 shadow-inner overflow-hidden transition-colors duration-300"
+      style={{
+        width: `${containerWidth}px`,
+        backgroundColor: currentTheme.background,
+      }}
       role="radiogroup"
       aria-label="Theme selector"
       onMouseEnter={handleMouseEnterContainer}
@@ -121,10 +136,11 @@ export default function ToggleSelector({
       {/* Ghost pill - shows on hover, behind the main pill */}
       {hoveredIndex !== null && (
         <div
-          className="absolute top-1 left-1 h-8 bg-gray-300/60 rounded-full transition-all duration-200 ease-out"
+          className="absolute top-1 left-1 h-8 rounded-full transition-all duration-200 ease-out"
           style={{
             width: `${buttonWidth}px`,
             transform: `translateX(${hoveredIndex * buttonWidth}px)`,
+            backgroundColor: `${currentTheme.primary}40`, // 40 = 25% opacity in hex
           }}
           aria-hidden="true"
         />
@@ -132,10 +148,11 @@ export default function ToggleSelector({
 
       {/* Main selected pill */}
       <div
-        className="absolute top-1 left-1 h-8 bg-black rounded-full transition-all duration-300 ease-out"
+        className="absolute top-1 left-1 h-8 rounded-full transition-all duration-300 ease-out"
         style={{
           width: `${buttonWidth}px`,
           transform: `translateX(${selectedIndex * buttonWidth}px)`,
+          backgroundColor: currentTheme.primary,
         }}
         aria-hidden="true"
       />
@@ -143,24 +160,29 @@ export default function ToggleSelector({
       <div className="relative grid grid-cols-3 w-full h-full z-10">
         {themes.map((theme, index) => (
           <button
-            key={theme}
+            key={theme.key}
             ref={(el) => {
               buttonsRef.current[index] = el;
             }}
-            onClick={() => onChange(theme)}
+            onClick={() => onChange(theme.key)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             onMouseEnter={() => handleMouseEnterButton(index)}
             className={clsx(
               "text-sm font-medium w-full h-full rounded-full flex items-center justify-center transition-all duration-300",
               "focus:outline-none active:scale-95",
-              value === theme ? "text-white" : "text-gray-700"
+              value === theme.key
+                ? "text-white"
+                : "transition-colors duration-300"
             )}
+            style={{
+              color: value === theme.key ? "white" : currentTheme.text,
+            }}
             role="radio"
-            aria-checked={value === theme}
-            aria-label={`Select ${theme} theme`}
-            tabIndex={value === theme ? 0 : -1}
+            aria-checked={value === theme.key}
+            aria-label={`Select ${theme.label} theme`}
+            tabIndex={value === theme.key ? 0 : -1}
           >
-            {theme.charAt(0).toUpperCase() + theme.slice(1)}
+            {theme.label}
           </button>
         ))}
       </div>
