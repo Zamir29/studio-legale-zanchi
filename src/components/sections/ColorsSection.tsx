@@ -2,7 +2,7 @@
 "use client";
 import { type ColorSet, colorSections } from "@/lib/theme";
 import { useEffect, useRef, useState } from "react";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, Palette } from "lucide-react";
 
 export default function ColorsSection({
   colors,
@@ -89,9 +89,10 @@ export default function ColorsSection({
       >
         <div className="max-w-4xl mx-auto px-6">
           <h2
-            className="text-base font-medium transition-colors duration-300"
+            className="text-base font-medium transition-colors duration-300 flex items-center gap-2"
             style={{ color: colors.text }}
           >
+            <Palette className="w-4 h-4" />
             Colori tema
           </h2>
         </div>
