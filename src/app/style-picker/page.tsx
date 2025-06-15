@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import ColorsSection from "@/components/sections/ColorsSection";
 import ButtonsSection from "@/components/sections/ButtonsSection";
+import FontsSection from "@/components/sections/FontsSection";
 import ToggleSelector from "@/components/ui/ToggleSelector";
 import { colorThemes, type ThemeKey } from "@/lib/theme";
 
@@ -63,6 +64,11 @@ export default function StylePickerPage() {
           mainHeaderHeight={mainHeaderHeight}
         />
         <ButtonsSection
+          colors={selectedTheme}
+          mainHeaderHeight={mainHeaderHeight}
+        />
+
+        <FontsSection
           colors={selectedTheme}
           mainHeaderHeight={mainHeaderHeight}
         />
