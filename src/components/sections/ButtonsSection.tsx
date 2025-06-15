@@ -12,6 +12,7 @@ import {
   Heart,
   Settings,
   Search,
+  MousePointer,
 } from "lucide-react";
 import { useEffect, useRef } from "react";
 
@@ -60,10 +61,11 @@ export default function ButtonsSection({
       >
         <div className="max-w-4xl mx-auto px-6">
           <h2
-            className="text-base font-medium transition-colors duration-300"
+            className="text-base font-medium transition-colors duration-300 flex items-center gap-2"
             style={{ color: colors.text }}
           >
-            Buttons & Components
+            <MousePointer className="w-4 h-4" />
+            Tasti
           </h2>
         </div>
       </div>
